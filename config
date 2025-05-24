@@ -192,15 +192,15 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $bg-color            #FF66FF
+set $bg-color            #BBBBBB
 set $inactive-bg-color   #555555
-set $text-color          #FF66FF
-set $inactive-text-color #FF66FF
-set $urgent-bg-color     #FF66FF
-set $indicator-color     #FF66FF
+set $text-color          #BBBBBB
+set $inactive-text-color #BBBBBB
+set $urgent-bg-color     #BBBBBB
+set $indicator-color     #BBBBBB
 
-set $border-color        #FF66FF
-set $border-active-color #FF66FF
+set $border-color        #BBBBBB
+set $border-active-color #BBBBBB
 
 # window colors
 #                       border               background         text                 indicator
@@ -236,10 +236,10 @@ default_floating_border pixel 2
 
 hide_edge_borders both
 
-#exec_always --no-startup-id picom -CGb
-exec_always --no-startup-id picom
+exec_always --no-startup-id feh --bg-fill ~/Documents/pictures/wallpapers/cyberpunk.jpg
 exec_always --no-startup-id nitrogen --restore
-#exec_always --no-startup-id feh --bg-fill ~/Documents/pictures/wallpapers/cyberpunk.jpg
+exec_always --no-startup-id picom
+#exec_always --no-startup-id picom -CGb
 
 exec_always --no-startup-id setxkbmap latam
 
