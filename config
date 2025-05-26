@@ -4,7 +4,7 @@
 # Should you change your keyboard layout some time, delete
 # this file and re-run i3-config-wizard(1).
 #
-
+#
 # i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
@@ -49,7 +49,7 @@ floating_modifier $mod
 bindsym Mod1+Control+t exec i3-sensible-terminal
 bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+c split toggle, exec "urxvt"
-bindsym $mod+Shift+f exec librewolf
+bindsym $mod+Shift+f exec librewolf --kiosk
 # bindsym $mod+Shift+f exec urxvt
 
 # kill focused window
@@ -69,11 +69,15 @@ bindsym $mod+k focus down
 bindsym $mod+i focus up
 bindsym $mod+l focus right
 
+
 bindsym $mod+Tab focus prev
 bindsym $mod+Shift+Tab focus parent, focus prev, focus child
-#bindsym $mod+Control+Tab focus parent, focus prev, focus child, focus parent, focus child, mark --add "swapee", focus prev, swap container with mark "swapee", unmark "swape"
-bindsym $mod+Control+Shift+Tab mark --add "swapee", focus prev, swap container with mark "swapee", unmark "swapee", focus prev
-bindsym $mod+Control+Tab focus parent, focus prev, focus child, mark --add "swapee", focus prev, focus parent, swap container with mark "swapee", unmark "swapee", focus prev
+bindsym $mod+Control+Tab focus parent, focus prev, focus child, focus prev, focus parent, focus parent, focus child, mark --add "swapee", focus prev, swap container with mark "swapee", unmark "swapee"
+
+bindsym $mod+Control+Shift+Tab mark --add "swapee", focus prev, focus parent, focus prev, focus child, focus parent, focus prev, focus child, focus parent, focus prev, focus child, focus parent, focus prev, focus child, swap container with mark "swapee", unmark "swapee"
+
+#bindsym $mod+Control+Shift+Tab mark --add "swapee", focus prev, swap container with mark "swapee", unmark "swapee", focus prev
+#bindsym $mod+Control+Tab focus parent, focus prev, focus child, mark --add "swapee", focus prev, focus parent, swap container with mark "swapee", unmark "swapee", focus prev
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
