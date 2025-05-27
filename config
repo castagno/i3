@@ -69,11 +69,13 @@ bindsym $mod+k focus down
 bindsym $mod+i focus up
 bindsym $mod+l focus right
 
-
 bindsym $mod+Tab focus prev
 bindsym $mod+Shift+Tab focus parent, focus prev, focus child
 bindsym $mod+Control+Tab focus parent, focus prev, focus child, focus prev, focus parent, focus parent, focus child, mark --add "swapee", focus prev, swap container with mark "swapee", unmark "swapee"
 bindsym $mod+Control+Shift+Tab mark --add "swapee", focus prev, focus parent, focus prev, focus child, focus parent, focus prev, focus child, focus parent, focus prev, focus child, focus parent, focus prev, focus child, swap container with mark "swapee", unmark "swapee"
+
+bindsym $mod+Caps_Lock workspace next
+
 
 #bindsym $mod+Control+Shift+Tab mark --add "swapee", focus prev, swap container with mark "swapee", unmark "swapee", focus prev
 #bindsym $mod+Control+Tab focus parent, focus prev, focus child, mark --add "swapee", focus prev, focus parent, swap container with mark "swapee", unmark "swapee", focus prev
@@ -234,7 +236,7 @@ bar {
 
 workspace $ws1 gaps vertical 200px
 workspace $ws1 gaps horizontal 0px
-workspace_auto_back_and_forth yes
+workspace_auto_back_and_forth no
 
 gaps inner 6px
 gaps outer -10px
@@ -254,7 +256,8 @@ exec_always --no-startup-id nitrogen --restore
 exec_always --no-startup-id picom
 #exec_always --no-startup-id picom -CGb
 
-exec_always --no-startup-id setxkbmap latam
+#exec_always --no-startup-id setxkbmap latam
+exec_always --no-startup-id setxkbmap es
 
 # for_window [class="URxvt"] floating enable
 # for_window [class="firefox"] move to workspace $ws2
