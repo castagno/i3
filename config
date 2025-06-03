@@ -52,7 +52,7 @@ bindsym Mod1+Control+t exec i3-sensible-terminal
 bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+c split toggle, exec "urxvt"
 bindsym $mod+Shift+f exec librewolf
-# bindsym $mod+Shift+f exec urxvt
+# bindsym $mod+Shift+f [class="URxvt"] exec urxvt
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -200,6 +200,7 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 #set $bg-color            #9A7ECC
+#set $bg-color            #EBDBB2
 
 # VIOLET TOKYO NIGHT
 #set $bg-color            #C678DD
@@ -209,22 +210,52 @@ bindsym $mod+r mode "resize"
 #set $bg-color            #8EC07C
 # GREEN GRUVBOX
 
-set $bg-color            #EBDBB2
-set $inactive-bg-color   #555555
-set $text-color          #EBDBB2
-set $inactive-text-color #EBDBB2
-set $urgent-bg-color     #EBDBB2
-set $indicator-color     #EBDBB2
+#xrdb ~/.Xresources
+#xrdb ~/.Xdefaults
+set_from_resource $color-black-normal   i3wm.color0  #000000
+set_from_resource $color-black-bright   i3wm.color8  #000000
+set_from_resource $color-red-normal     i3wm.color1  #FF0000
+set_from_resource $color-red-bright     i3wm.color9  #FF0000
+set_from_resource $color-yellow-normal  i3wm.color2  #FFFF00
+set_from_resource $color-yellow-bright  i3wm.color10 #FFFF00
+set_from_resource $color-green-normal   i3wm.color3  #00FF00
+set_from_resource $color-green-bright   i3wm.color11 #00FF00
+set_from_resource $color-blue-normal    i3wm.color4  #0000FF
+set_from_resource $color-blue-bright    i3wm.color12 #0000FF
+set_from_resource $color-magenta-normal i3wm.color5  #FF00FF
+set_from_resource $color-magenta-bright i3wm.color13 #FF00FF
+set_from_resource $color-cyan-normal    i3wm.color6  #00FFFF
+set_from_resource $color-cyan-bright    i3wm.color14 #00FFFF
+set_from_resource $color-white-normal   i3wm.color7  #FFFFFF
+set_from_resource $color-white-bright   i3wm.color15 #FFFFFF
 
-set $border-color        #EBDBB2
-set $border-active-color #EBDBB2
 
+#set $bg-color            #FF80FF
+#set $inactive-bg-color   #555555
+#set $text-color          #FF80FF
+#set $inactive-text-color #FF80FF
+#set $urgent-bg-color     #FF80FF
+#set $indicator-color     #FF80FF
+#set $border-color        #FF80FF
+#set $border-active-color #FF80FF
 # window colors
 #                       border               background         text                 indicator
-client.focused          $border-active-color $bg-color          $text-color          $border-active-color
-client.unfocused        $border-color        $inactive-bg-color $inactive-text-color $border-active-color
-client.focused-inactive $border-color        $inactive-bg-color $inactive-text-color $border-active-color
-client.urgent           $border-color        $urgent-bg-color   $text-color          $border-active-color
+#client.focused          $border-active-color $bg-color          $text-color          $border-active-color
+#client.unfocused        $border-color        $inactive-bg-color $inactive-text-color $border-active-color
+#client.focused-inactive $border-color        $inactive-bg-color $inactive-text-color $border-active-color
+#client.urgent           $border-color        $urgent-bg-color   $text-color          $border-active-color
+
+
+#set $frame-color       #FFB0FF
+set $frame-color       #EBDBB2
+set $inactive-bg-color #404040
+
+# window colors
+#                       border              background         text                 indicator
+client.focused          $frame-color        $frame-color       $frame-color         $frame-color
+client.unfocused        $frame-color        $inactive-bg-color $frame-color         $frame-color
+client.focused-inactive $frame-color        $inactive-bg-color $frame-color         $frame-color
+client.urgent           $frame-color        $frame-color       $frame-color         $frame-color
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
@@ -240,18 +271,21 @@ workspace $ws1 gaps vertical 200px
 workspace $ws1 gaps horizontal 0px
 workspace_auto_back_and_forth no
 
-gaps inner 8px
-gaps outer -8px
+#gaps inner 128px
+#gaps outer -128px
+gaps inner 6px
+gaps outer -6px
 smart_gaps inverse_outer
 
 #smart_gaps on
 
-default_border pixel 2
-default_floating_border pixel 2
+default_border pixel 4
+default_floating_border pixel 4
 
-# default_border none
-# default_floating_border none
+#default_border none
+#default_floating_border none
 
+#hide_edge_borders both
 #hide_edge_borders smart
 hide_edge_borders smart_no_gaps
 
