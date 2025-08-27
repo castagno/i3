@@ -37,10 +37,13 @@ exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && $refresh_i3status
+#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+#bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 
 bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
 
@@ -48,16 +51,18 @@ bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
 floating_modifier $mod
 
 
-#set $hidemouse "sh -c 'eval `xdotool getdisplaygeometry --shell`; xdotool mousemove $((WIDTH/2)) $((HEIGHT))'"
+set $virtmgr "sh /home/chloe/Documents/QEMU-KVM/openVirtManager.sh"
+
+set $hidemouse "sh -c 'eval `xdotool getdisplaygeometry --shell`; xdotool mousemove $((WIDTH/2)) $((HEIGHT))'"
 set $movemouse "sh -c 'eval `xdotool getactivewindow getwindowgeometry --shell`; xdotool mousemove $((X+WIDTH/2)) $((Y+HEIGHT/2))'"
-set $delaymovemouse "sh -c 'xdotool sleep 0.2; eval `xdotool getactivewindow getwindowgeometry --shell`; xdotool mousemove $((X+WIDTH/2)) $((Y+HEIGHT/2))'"
+set $delaymovemouse "sh -c 'xdotool sleep 0.5; eval `xdotool getactivewindow getwindowgeometry --shell`; xdotool mousemove $((X+WIDTH/2)) $((Y+HEIGHT/2))'"
 
 
 # start a terminal
-bindsym Mod1+Control+t exec i3-sensible-terminal; exec $delaymovemouse
-bindsym $mod+Return exec i3-sensible-terminal; exec $delaymovemouse
-bindsym $mod+Shift+c split toggle, exec "urxvt"; exec $delaymovemouse
-bindsym $mod+Shift+f exec librewolf; exec $delaymovemouse
+bindsym Mod1+Control+t exec i3-sensible-terminal; exec --no-startup-id $delaymovemouse
+bindsym $mod+Return exec i3-sensible-terminal; exec --no-startup-id $delaymovemouse
+bindsym $mod+Shift+c split toggle, exec "urxvt"; exec --no-startup-id $delaymovemouse
+bindsym $mod+Shift+f exec librewolf; exec --no-startup-id $hidemouse
 # bindsym $mod+Shift+f [class="URxvt"] exec urxvt
 
 # kill focused window
@@ -73,43 +78,50 @@ bindsym $mod+q exec --no-startup-id dmenu_run
 
 
 # change focus
-bindsym $mod+j focus left; exec $movemouse
-bindsym $mod+k focus down; exec $movemouse
-bindsym $mod+i focus up; exec $movemouse
-bindsym $mod+l focus right; exec $movemouse
+bindsym $mod+j focus left;  exec --no-startup-id $movemouse
+bindsym $mod+k focus down;  exec --no-startup-id $movemouse
+bindsym $mod+i focus up;    exec --no-startup-id $movemouse
+bindsym $mod+l focus right; exec --no-startup-id $movemouse
 
-bindsym $mod+Tab focus prev; exec $movemouse
-bindsym $mod+Shift+Tab focus parent, focus prev, focus child; exec $movemouse
-bindsym $mod+Control+Tab focus parent, focus prev, focus child, focus prev, focus parent, focus parent, focus child, mark --add "swapee", focus prev, swap container with mark "swapee", unmark "swapee"; exec $movemouse
-bindsym $mod+Control+Shift+Tab mark --add "swapee", focus prev, focus parent, focus prev, focus child, focus parent, focus prev, focus child, focus parent, focus prev, focus child, focus parent, focus prev, focus child, swap container with mark "swapee", unmark "swapee"; exec $movemouse
+bindsym $mod+Tab          focus prev; exec --no-startup-id $movemouse
+bindsym $mod+Shift+Tab    focus parent, focus prev, focus child; exec --no-startup-id $movemouse
+bindsym $mod+Caps_Lock    focus parent, focus prev, focus child; exec --no-startup-id $movemouse
+#bindsym Mod4+Caps_Lock    focus parent, focus prev, focus child; exec --no-startup-id $movemouse
+#bindsym $mod+ordmasculine focus parent, focus prev, focus child; exec --no-startup-id $movemouse
+#bindsym $mod+bar          focus parent, focus prev, focus child; exec --no-startup-id $movemouse
 
-#bindsym $mod+Caps_Lock workspace next
+bindsym $mod+Control+Tab focus parent, focus prev, focus child, focus prev, focus parent, focus parent, focus child, mark --add "swapee", focus prev, swap container with mark "swapee", unmark "swapee"; exec --no-startup-id $movemouse
+bindsym $mod+Control+Shift+Tab mark --add "swapee", focus prev, focus parent, focus prev, focus child, focus parent, focus prev, focus child, focus parent, focus prev, focus child, focus parent, focus prev, focus child, swap container with mark "swapee", unmark "swapee"; exec --no-startup-id $movemouse
+
+#bindsym $mod+Caps_Lock    workspace next
+bindsym $mod+bar          workspace next
 bindsym $mod+ordmasculine workspace next
-bindsym $mod+bar workspace next
-
-bindsym Mod4+Tab workspace next
-
+bindsym Mod4+ordmasculine workspace next
+bindsym Mod4+Caps_Lock    workspace next
+bindsym Mod4+bar          workspace next
+bindsym Mod4+Tab          workspace next
+#bindsym Mod4              workspace next
 
 #bindsym $mod+Control+Shift+Tab mark --add "swapee", focus prev, swap container with mark "swapee", unmark "swapee", focus prev
 #bindsym $mod+Control+Tab focus parent, focus prev, focus child, mark --add "swapee", focus prev, focus parent, swap container with mark "swapee", unmark "swapee", focus prev
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left; exec $movemouse
-bindsym $mod+Down focus down; exec $movemouse
-bindsym $mod+Up focus up; exec $movemouse
-bindsym $mod+Right focus right; exec $movemouse
+bindsym $mod+Left focus left; exec --no-startup-id $movemouse
+bindsym $mod+Down focus down; exec --no-startup-id $movemouse
+bindsym $mod+Up focus up; exec --no-startup-id $movemouse
+bindsym $mod+Right focus right; exec --no-startup-id $movemouse
 
 # move focused window
-bindsym $mod+Shift+j move left; exec $movemouse
-bindsym $mod+Shift+k move down; exec $movemouse
-bindsym $mod+Shift+i move up; exec $movemouse
-bindsym $mod+Shift+l move right; exec $movemouse
+bindsym $mod+Shift+j move left; exec --no-startup-id $movemouse
+bindsym $mod+Shift+k move down; exec --no-startup-id $movemouse
+bindsym $mod+Shift+i move up; exec --no-startup-id $movemouse
+bindsym $mod+Shift+l move right; exec --no-startup-id $movemouse
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left; exec $movemouse
-bindsym $mod+Shift+Down move down; exec $movemouse
-bindsym $mod+Shift+Up move up; exec $movemouse
-bindsym $mod+Shift+Right move right; exec $movemouse
+bindsym $mod+Shift+Left move left; exec --no-startup-id $movemouse
+bindsym $mod+Shift+Down move down; exec --no-startup-id $movemouse
+bindsym $mod+Shift+Up move up; exec --no-startup-id $movemouse
+bindsym $mod+Shift+Right move right; exec --no-startup-id $movemouse
 
 # split in horizontal orientation
 bindsym $mod+h split h
@@ -118,7 +130,7 @@ bindsym $mod+h split h
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle; exec $movemouse
+bindsym $mod+f fullscreen toggle; exec --no-startup-id $movemouse
 
 # change container layout (stacked, tabbed, toggle split)
 # bindsym $mod+s layout stacking
@@ -129,7 +141,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle; exec $movemouse
+bindsym $mod+space focus mode_toggle; exec --no-startup-id $movemouse
 
 # focus the parent container
 # bindsym $mod+a focus parent
@@ -176,8 +188,8 @@ bindsym $mod+Shift+0 move container to workspace number $ws0, workspace number $
 
 workspace $ws1 output primary
 workspace $ws2 output primary
-workspace $ws3 output secondary
-workspace $ws4 output primary
+workspace $ws3 output primary
+workspace $ws4 output secondary
 workspace $ws5 output primary
 workspace $ws6 output primary
 workspace $ws7 output primary
@@ -269,8 +281,8 @@ set_from_resource $color-white-bright   i3wm.color15 #FFFFFF
 
 
 #set $frame-color       #FFB0FF
-set $frame-color       #EBDBB2
-set $inactive-bg-color #404040
+set $frame-color       #BBBBBB
+set $inactive-bg-color #666666
 
 # window colors
 #                       border              background         text                 indicator
@@ -290,42 +302,56 @@ bar {
 }
 
 workspace $ws1 gaps vertical 200px
-workspace $ws1 gaps horizontal 0px
+workspace $ws1 gaps horizontal 8px
 workspace_auto_back_and_forth no
 
-#gaps inner 128px
-#gaps outer -128px
-gaps inner 6px
-gaps outer -6px
+#gaps inner 8px
+#gaps outer -8px
+gaps inner 0px
+gaps outer 0px
 smart_gaps inverse_outer
 
-#smart_gaps on
+default_border none
+default_floating_border none
+#default_floating_border pixel 2
 
-default_border pixel 4
-default_floating_border pixel 4
+#default_border pixel 4
+#default_floating_border pixel 4
 
-#default_border none
-#default_floating_border none
-
+#hide_edge_borders horizontal
+#hide_edge_borders vertical
 #hide_edge_borders both
 #hide_edge_borders smart
 hide_edge_borders smart_no_gaps
 
-exec_always --no-startup-id feh --bg-fill ~/Documents/pictures/wallpapers/cyberpunk.jpg
+exec_always --no-startup-id feh --bg-fill ~/Documents/pictures/wallpapers/drift.jpg
+#exec_always --no-startup-id feh --bg-fill ~/Documents/pictures/wallpapers/frieren.jpg
+#exec_always --no-startup-id feh --bg-fill ~/Documents/pictures/wallpapers/cyberpunk.jpg
 #exec_always --no-startup-id feh --bg-fill ~/Documents/pictures/wallpapers/landscape.jpg
 exec_always --no-startup-id nitrogen --restore
 exec_always --no-startup-id picom
+exec_always --no-startup-id xset -dpms # disables Display Power Management Signaling
+exec_always --no-startup-id xset s off # disables Display Power Management Signaling
 #exec_always --no-startup-id picom -CGb
 
 #exec_always --no-startup-id setxkbmap latam
 #exec_always --no-startup-id setxkbmap en
 exec_always --no-startup-id setxkbmap es
+exec_always --no-startup-id $virtmgr
 
 # for_window [class="URxvt"] floating enable
 # for_window [class="firefox"] move to workspace $ws2
-for_window [class="OSD"] move to workspace $ws3
+
+for_window [class="eog"] floating enable
+for_window [class="Eog"] floating enable
+for_window [class="OSD"] move to workspace $ws4
+for_window [class="java"] move to workspace $ws2
+for_window [class="Java"] move to workspace $ws2
 for_window [class="Eclipse"] move to workspace $ws2
+for_window [class="virt-manager"] move to workspace $ws5
+for_window [class="Virt-manager"] move to workspace $ws5
 for_window [class="Gnome-terminal"] floating enable
 
 focus_wrapping force
 default_orientation vertical
+
